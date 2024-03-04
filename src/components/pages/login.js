@@ -17,12 +17,12 @@ function Login() {
         <div className={styles.form_container}>
           <form className={styles.form} onSubmit={logar}>
             <header>
-              <h1>Login</h1>
+              <h1>LOGIN</h1>
               <span>Seja bem vindo ao CarTrack</span>
             </header>
             <input
               type="number"
-              placeholder="Usúario"
+              placeholder="Usuário"
               onChange={(e) => setUser(e.target.value)}
             />
             <input
