@@ -8,11 +8,11 @@ function Login(){
             <div className={styles.container} >
       <div className={styles.form_container}>
         <form className={styles.form}>
-          <header>
+          <header >
             <h1>Login</h1>
             <span>Seja bem vindo ao CarTrack</span>
         </header>
-          <input type="number" placeholder="Usuário" />
+          <input type="number" placeholder="Siape" />
           <input type="password" placeholder="Senha" />
           <a href="#">Esqueceu sua senha?</a>
           <button>Entrar</button>
