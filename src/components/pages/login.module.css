@@ -18,7 +18,9 @@ body {
 	width: 100vw;
 }
 
-
+img{
+   height: 215px;
+ }
      
 
 h1 {
@@ -104,18 +106,43 @@ input:hover {
 }
 
 .form_container {
-	position: flex;
-	flex-direction: row;
-	
+	position: absolute;
+	top: 0;
+	height: 100%;
+	left: 0;
+	width: 50%;
+	z-index: 2;
 }
 
 
 
-.overlay_panel {
-	background: linear-gradient(to right, white 75%,  #5d59d4);
+
+
+
+
+.overlay {
+	background: -webkit-linear-gradient(to right, #4D47E6, #4D47E6);
+	background: linear-gradient(to right, white 50%,  #5d59d4);
 	background-repeat: no-repeat;
 	background-size: cover;
-	
+	background-position: 0 0;
+	color: #ffffff;
+	width: 200%;
+    
+}
+
+.overlay_panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 100%;
+	width: 50%;
+	right: 0;
 }
 
 
