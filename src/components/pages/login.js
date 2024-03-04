@@ -14,7 +14,7 @@ function Login(){
         </header>
           <input type="number" placeholder="Siape" />
           <input type="password" placeholder="Senha" />
-          <a href="#">Esqueceu sua senha? Sim</a>
+          <a href="#">Esqueceu sua senha?</a>
           <button>Entrar</button>
         </form>
       </div>
