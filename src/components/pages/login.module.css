@@ -8,7 +8,7 @@
 }
 
 body {
-	background: linear-gradient(to right, #5d59d4, rgb(17, 2, 32));
+	background: linear-gradient(to right, rgb(182, 181, 181),  #4f4f50);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -53,8 +53,8 @@ header {
 
 button {
 	border-radius: 20px !important;
-	border: 1px solid #5d59d4;
-	background-color: #5d59d4;
+	border: 1px solid #555557;
+	background-color: #4f4f50;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -65,8 +65,8 @@ button {
 }
 
 button:hover {
-	border: 1px solid #020007;
-	background-color: rgb(32, 9, 56);
+	border: 1px solid #343435;
+	background-color: rgb(58, 57, 57);
 
 }
 
@@ -125,7 +125,7 @@ z-index: 2;
 	height: 100%;
 	width: 50%;
 	right: 0;
-	background: linear-gradient(to right, white 50%,  #5d59d4);
+	background: linear-gradient(to right, white 50%,  #4f4f50);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
