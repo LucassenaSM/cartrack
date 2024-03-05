@@ -1,35 +1,32 @@
 import styles from "./login.module.css";
 import carro from "../img/bmw.png";
 import React, { useState } from "react";
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
-
-
+import Modal from "react-bootstrap/Modal";
 
 function Login() {
+  const [show, setShow] = useState(false);
 
-    function Confirm() {
-        const [show, setShow] = useState(true);
-      
-        return (
-          <>
-            <Alert show={show} variant="success">
-              <Alert.Heading>Login Efetuado com Sucesso</Alert.Heading>
-              <p>
-                Aguarde um momento, Voce será redirecionado automaticamente para página principal 
-              </p>
-              <hr />
-              <div className="d-flex justify-content-end">
-                <Button onClick={() => setShow(false)} variant="outline-success">
-                  Fechar
-                </Button>
-              </div>
-            </Alert>
-      
-            {!show && <Button onClick={() => setShow(true)}>Mostrar Alerta</Button>}
-          </>
-        );
-      }
+  function Confirm(props) {
+    return (
+      <Modal show={props.show} onHide={() => props.setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login Efetuado com Sucesso</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h6>
+            Aguarde um momento, você será redirecionado automaticamente para
+            página principal
+          </h6>
+          <hr></hr>
+          <p>
+            Você está totalmente seguro. Aqui, sua senha é criptografada. Nós,
+            da CarTrack, não temos acesso.<br></br>
+            {user} Senha: {password}
+          </p>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +35,8 @@ function Login() {
     e.preventDefault();
 
     console.log("User:", user, " Password:", password);
-    Confirm()
+
+    setShow(true);
   }
   return (
     <body>
@@ -69,6 +67,7 @@ function Login() {
           </div>
         </div>
       </div>
+      <Confirm show={show} setShow={setShow} />
     </body>
   );
 }
