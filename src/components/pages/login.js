@@ -33,11 +33,35 @@ function Login() {
 
   function logar(e) {
     e.preventDefault();
-
-    console.log("User:", user, " Password:", password);
-
+    // fetch('https://meuapi.com/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     username: user,
+    //     password: password,
+    //   }),
+    // })
+    // .then((response) => {
+    //   if (!response.ok) {
+    //     throw new Error('Erro na resposta do servidor');
+    //   }
+    //   return response.json();
+    // })
+    // .then((data) => {
+    //   if (data.ussername === user && data.password === password) {
+    //     // Os dados correspondem
+    //     console.log('Os dados correspondem');
+    // }})
+    // .catch((error) => {
+    //   console.error('Erro:', error);
+    // });
     setShow(true);
   }
+
+  
+  
   return (
     <body>
       <div className={styles.container}>
@@ -57,7 +81,7 @@ function Login() {
               placeholder="Senha"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <a href="/">Esqueceu sua senha?</a>
+            <p><bold>Esqueceu sua senha?<br />Entre em contato com o administrador</bold></p>
             <button>Entrar</button>
           </form>
         </div>
