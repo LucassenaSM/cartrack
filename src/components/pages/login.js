@@ -33,30 +33,33 @@ function Login() {
 
   function logar(e) {
     e.preventDefault();
-    // fetch('https://meuapi.com/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     username: user,
-    //     password: password,
-    //   }),
-    // })
-    // .then((response) => {
-    //   if (!response.ok) {
-    //     throw new Error('Erro na resposta do servidor');
-    //   }
-    //   return response.json();
-    // })
-    // .then((data) => {
-    //   if (data.ussername === user && data.password === password) {
-    //     // Os dados correspondem
-    //     console.log('Os dados correspondem');
-    // }})
-    // .catch((error) => {
-    //   console.error('Erro:', error);
-    // });
+     fetch('http://localhost:3030/', {
+       mode: 'no-cors',
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify({
+         username: user,
+         password: password,
+       }),
+     })
+     .then((response) => {
+       if (!response.ok) {
+         throw new Error('Erro na resposta do servidor');
+       }
+       return response.json();
+     })
+     .then((data) => {
+       if (data.ussername === user && data.password === password) {
+         console.log('Os dados correspondem');
+         
+     }
+    console.log(data);})
+
+     .catch((error) => {
+       console.error('Erro:', error);
+     });
     setShow(true);
   }
 
