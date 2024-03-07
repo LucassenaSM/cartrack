@@ -1,6 +1,7 @@
 import express from "express";
 import mysql from 'mysql';
 const cors = require('cors');
+const app = new express();
 
 app.use(cors({
     origin: 'http://localhost:3000'
@@ -12,8 +13,6 @@ const con = mysql.createConnection({
     password: '',
     database: 'login'
 })
-
-const app = new express();
 
 app.get('/', (req, res) => {
 
