@@ -84,7 +84,7 @@ button:hover {
 
 input {
 	background-color: #e4e4e4;
-	border: none;
+	border: 10px !important;
     border-radius: 10px;
 	padding: 12px 15px;
 	width: 100%;
@@ -93,6 +93,10 @@ input {
 
 input:hover {
     background-color: #d1cfcf
+}
+
+input:focus { 
+	border-color: #dc3545 !important;
 }
 
 .container {

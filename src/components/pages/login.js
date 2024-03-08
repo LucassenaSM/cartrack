@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 function Login() {
-  const [show, setShow] = useState(false);
+  const [showV, setShowV] = useState(false);
+  const [showI, setShowI] = useState(false);
 
-  function Confirm(props) {
+  function Validado(props) {
     return (
       <Modal show={props.show} onHide={() => props.setShow(false)}>
         <Modal.Header closeButton>
@@ -19,48 +20,68 @@ function Login() {
           </h6>
           <hr></hr>
           <p>
-            Você está totalmente seguro. Aqui, sua senha é criptografada. Nós,
-            da CarTrack, não temos acesso.<br></br>
-            {user} Senha: {password}
+            Você está totalmente seguro. Aqui, sua senha é criptografada. <br /> Nós,
+            da CarTrack, não temos acesso.<br/>
           </p>
         </Modal.Body>
       </Modal>
     );
   }
 
+  function Invalidado(props) {
+    return (
+      <Modal show={props.show} onHide={() => props.setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Dados não correspondentes</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h6>
+              O usuário ou senha estão incorretos 
+          </h6>
+          <hr></hr>
+          <p>
+            Você está totalmente seguro. Aqui, sua senha é criptografada.<br />Nós,
+            da CarTrack, não temos acesso.<br/>
+          </p>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   function logar(e) {
     e.preventDefault();
-     fetch('http://localhost:3030/', {
-       mode: 'no-cors',
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({
-         username: user,
-         password: password,
-       }),
-     })
-     .then((response) => {
-       if (!response.ok) {
-         throw new Error('Erro na resposta do servidor');
-       }
-       return response.json();
-     })
-     .then((data) => {
-       if (data.ussername === user && data.password === password) {
-         console.log('Os dados correspondem');
-         
-     }
-    console.log(data);})
-
-     .catch((error) => {
-       console.error('Erro:', error);
-     });
-    setShow(true);
+  fetch('http://localhost:3030/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    username: parseInt(user),
+    password: password,
+  }),
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Erro na resposta do servidor');
+  }
+  return response.json();
+})
+.then(data => {
+  if (data.message === 'Os dados correspondem') {
+    setShowV(true);
+    console.log('Os dados correspondem');
+  } else {
+    console.log('Os dados não correspondem');
+    setShowI(true);
+  }
+})
+.catch(error => {
+  console.error('Erro:', error);
+});
   }
 
   
@@ -94,7 +115,8 @@ function Login() {
           </div>
         </div>
       </div>
-      <Confirm show={show} setShow={setShow} />
+      <Validado show={showV} setShow={setShowV} />
+      <Invalidado show={showI} setShow={setShowI}/>
     </body>
   );
 }
