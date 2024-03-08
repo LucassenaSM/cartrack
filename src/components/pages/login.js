@@ -1,7 +1,7 @@
 import styles from "./login.module.css";
 import carro from "../img/bmw.png";
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import {Modal} from "react-bootstrap";
 
 function Login() {
   const [showV, setShowV] = useState(false);
