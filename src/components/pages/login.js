@@ -1,11 +1,14 @@
 import styles from "./login.module.css";
 import carro from "../img/bmw.png";
 import React, { useState } from "react";
-import {Modal} from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import AlertError from "../layout/AlertError/alertError.js";
 
 function Login() {
   const [showV, setShowV] = useState(false);
-  const [showI, setShowI] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
 
   function Validado(props) {
     return (
@@ -20,72 +23,63 @@ function Login() {
           </h6>
           <hr></hr>
           <p>
-            Você está totalmente seguro. Aqui, sua senha é criptografada. <br /> Nós,
-            da CarTrack, não temos acesso.<br/>
+            Você está totalmente seguro. Aqui, sua senha é criptografada. <br />
+            Nós, da CarTrack, não temos acesso.
+            <br />
           </p>
         </Modal.Body>
       </Modal>
     );
   }
-
-  function Invalidado(props) {
-    return (
-      <Modal show={props.show} onHide={() => props.setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Dados não correspondentes</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h6>
-              O usuário ou senha estão incorretos 
-          </h6>
-          <hr></hr>
-          <p>
-            Você está totalmente seguro. Aqui, sua senha é criptografada.<br />Nós,
-            da CarTrack, não temos acesso.<br/>
-          </p>
-        </Modal.Body>
-      </Modal>
-    );
-  }
-
 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   function logar(e) {
     e.preventDefault();
-  fetch('http://localhost:3030/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    username: parseInt(user),
-    password: password,
-  }),
-})
-.then(response => {
-  if (!response.ok) {
-    throw new Error('Erro na resposta do servidor');
-  }
-  return response.json();
-})
-.then(data => {
-  if (data.message === 'Os dados correspondem') {
-    setShowV(true);
-    console.log('Os dados correspondem');
-  } else {
-    console.log('Os dados não correspondem');
-    setShowI(true);
-  }
-})
-.catch(error => {
-  console.error('Erro:', error);
-});
+    if (user === ""){
+      setShowError(true);
+      setTitle("Campo de Usuário está Branco");
+      setMessage("Por favor insira o Usuário");
+    } else if (password ===""){
+      setShowError(true);
+      setTitle("Campo da Senha está Branco");
+      setMessage("Por favor insira a Senha");
+    } else{
+    fetch("http://localhost:3030/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: parseInt(user),
+        password: password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro na resposta do servidor");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.message === "Os dados correspondem") {
+          setShowV(true);
+        } else {
+          setShowError(true);
+          setTitle("Dados não correspondentes");
+          setMessage("O usuário ou senha estão incorretos");
+        }
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+        setShowError(true);
+        setTitle("Error no Servidor");
+        setMessage("Aguarde um momento");
+      });
+    }
   }
 
-  
-  
   return (
     <body>
       <div className={styles.container}>
@@ -105,7 +99,13 @@ function Login() {
               placeholder="Senha"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <p><bold>Esqueceu sua senha?<br />Entre em contato com o administrador</bold></p>
+            <p>
+              <bold>
+                Esqueceu sua senha?
+                <br />
+                Entre em contato com o administrador
+              </bold>
+            </p>
             <button>Entrar</button>
           </form>
         </div>
@@ -116,7 +116,13 @@ function Login() {
         </div>
       </div>
       <Validado show={showV} setShow={setShowV} />
-      <Invalidado show={showI} setShow={setShowI}/>
+      <AlertError
+        Title={title}
+        Message={message}
+        show={showError}
+        setShow={setShowError}
+        onDismiss={() => setShowError(false)}
+      />
     </body>
   );
 }

@@ -1,0 +1,32 @@
+.alertBody{
+    position: fixed; /* Fixa a posição em relação à janela do navegador */
+    bottom: 00; /* Posiciona no fundo da tela */
+    right: 0; /* Posiciona à direita da tela */
+    width: auto; /* Largura do alerta */
+    padding: 20px; /* Espaçamento interno do alerta */
+    margin: 3em;
+    border-left: 10px solid red;
+    background-color: #f5675d; /* Cor de fundo do alerta */
+    color: white; /* Cor do texto do alerta */
+    text-align: center; /* Alinha o texto ao centro */
+    border-radius: 2px; /* Arredonda os cantos do alerta */
+    z-index: 9999; /* Garante que o alerta esteja por cima de outros elementos */
+}
+.alertBody hr {
+    width: 100%; /* Faz o <hr> ocupar toda a largura da <div> */
+    border: 0; /* Remove a borda padrão do <hr> */
+    border-top: 1px solid #fFFFFF; /* Adiciona uma borda superior */
+    margin: 0; /* Remove as margens padrão */
+    margin-bottom: 1em;
+  }
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: safe;
+}
+
+svg {
+margin-right: 5px;
+font-size: 2em;
+}

@@ -30,7 +30,6 @@ try {
     // Consulta para selecionar o usuário com o nome de usuário fornecido
     con.query("SELECT * FROM login WHERE Username = ?", [username], (error, results) => {
       if (error) {
-        console.error(error);
         res.status(500).json({ message: 'Erro no servidor' });
       } else 
     if (results.length > 0) {
@@ -49,7 +48,7 @@ try {
   });
 
   app.listen("3030", () => {
-    console.log("Running server");
+    console.log("Servidor Pronto!");
   });
 } catch (e) {
   console.error(e.message);
