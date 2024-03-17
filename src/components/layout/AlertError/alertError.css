@@ -11,6 +11,7 @@
     text-align: center; /* Alinha o texto ao centro */
     border-radius: 2px; /* Arredonda os cantos do alerta */
     z-index: 9999; /* Garante que o alerta esteja por cima de outros elementos */
+    border-radius: 10px;
 }
 .alertBody hr {
     width: 100%; /* Faz o <hr> ocupar toda a largura da <div> */
