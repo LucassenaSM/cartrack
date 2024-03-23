@@ -23,7 +23,7 @@ function Login() {
           </h6>
           <hr></hr>
           <p>
-            Você está totalmente adksakdsadakpd. Aqui, sua senha é criptografada. <br />
+            Você está totalmente seguro. Aqui, sua senha é criptografada. <br />
             Nós, da CarTrack, não temos acesso.
             <br />
           </p>
