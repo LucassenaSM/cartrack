@@ -7,7 +7,7 @@
 	margin: 0em;
 }
 
-body {
+.corpo{
 	background: linear-gradient(to right, rgb(172, 170, 170),  #aaaaaa);
 	display: flex;
 	justify-content: center;

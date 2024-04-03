@@ -1,4 +1,4 @@
-import styles from "./login.module.css";
+import css from "./login.module.css";
 import carro from "../img/bmw.png";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
@@ -81,10 +81,10 @@ function Login() {
   }
 
   return (
-    <body>
-      <div className={styles.container}>
-        <div className={styles.form_container}>
-          <form className={styles.form} onSubmit={logar}>
+    <div className={css.corpo}>
+      <div className={css.container}>
+        <div className={css.form_container}>
+          <form className={css.form} onSubmit={logar}>
             <header>
               <h1>LOGIN</h1>
               <span>Seja bem vindo ao CarTrack</span>
@@ -110,7 +110,7 @@ function Login() {
           </form>
         </div>
         <div>
-          <div className={styles.overlay_panel}>
+          <div className={css.overlay_panel}>
             <img src={carro} alt="Carro" />
           </div>
         </div>
@@ -123,7 +123,7 @@ function Login() {
         setShow={setShowError}
         onDismiss={() => setShowError(false)}
       />
-    </body>
+    </div>
   );
 }
 
