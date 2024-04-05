@@ -11,7 +11,7 @@ function AlertError({ show: initialShow, Title, Message, onDismiss }) {
       const timer = setTimeout(() => {
         setShow(false);
         onDismiss && onDismiss(); // Chama a função callback quando o alerta desaparece
-      }, 20000);
+      }, 10000);
       return () => clearTimeout(timer); 
     }
   }, [initialShow, onDismiss]); // Adiciona onDismiss às dependências do useEffect
