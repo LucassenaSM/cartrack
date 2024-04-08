@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 * {
-	box-sizing: border-box;
+
 	padding: 0em;
 	margin: 0em;
 }
@@ -18,87 +18,86 @@
 	width: 100vw;
 }
 
-img{
-   height: 215px;
+.img_class {
+	height: 215px;
  }
-     
-
-h1 {
-	font-weight: bold !important;
-	margin: 0;
-}
-
-p {
-	font-size: 14px;
-	font-weight: 100;
-	line-height: 20px;
-	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
-}
-
-span {
-	font-size: 12px !important;
-}
-
-a {
-	color: #333 !important;
-	font-size: 14px !important;
-	text-decoration: none !important;
-	margin: 15px 0 !important;
-	border-bottom: 1px solid black;
-}
-
-header {
-    margin-bottom: 30px;
-}
-
-button {
-	border-radius: 20px !important;
-	border: 1px solid #555557;
-	background-color: #4f4f50;
-	color: #FFFFFF;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
-}
-
-button:hover {
-	border: 1px solid #343435;
-	background-color: rgb(58, 57, 57);
-
-}
-
-.form {
-	background-color: #ffffff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 50px;
-	height: 100%;
-	text-align: center;
-}
-
-input {
-	background-color: #e4e4e4;
-	border: 10px !important;
-    border-radius: 10px;
-	padding: 12px 15px;
-	width: 100%;
-	margin: 8px !important;
-}	
-
-input:hover {
-    background-color: #d1cfcf
-}
-
-input:focus { 
-	border-color: #dc3545 !important;
-}
-
+ 
+ .h1_class {
+	 font-weight: bold !important;
+	 margin: 0;
+ }
+ 
+ .p_class {
+	 font-size: 14px;
+	 font-weight: 100;
+	 line-height: 20px;
+	 letter-spacing: 0.5px;
+	 margin: 20px 0 30px;
+ }
+ 
+ .span_class {
+	 font-size: 12px !important;
+ }
+ 
+ .a_class {
+	 color: #333 !important;
+	 font-size: 14px !important;
+	 text-decoration: none !important;
+	 margin: 15px 0 !important;
+	 border-bottom: 1px solid black;
+ }
+ 
+ .header_class {
+	 margin-bottom: 30px;
+ }
+ 
+ .button_class {
+	 border-radius: 20px !important;
+	 border: 1px solid #555557;
+	 background-color: #4f4f50;
+	 color: #FFFFFF;
+	 font-size: 12px;
+	 font-weight: bold;
+	 padding: 12px 45px;
+	 letter-spacing: 1px;
+	 text-transform: uppercase;
+	 transition: transform 80ms ease-in;
+	 margin-top: 1em;
+ }
+ 
+ .button_class:hover {
+	 border: 1px solid #343435;
+	 background-color: rgb(58, 57, 57);
+ }
+ 
+ .form_class {
+	 background-color: #ffffff;
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 flex-direction: column;
+	 padding: 0 50px;
+	 height: 100%;
+	 text-align: center;
+ }
+ 
+ .input_class {
+	 background-color: #e4e4e4;
+	 border: 10px !important;
+	 border-radius: 10px;
+	 padding: 12px 15px;
+	 width: 100%;
+	 margin: 8px !important;
+ }	
+ 
+ .input_class:hover {
+	 background-color: #d1cfcf
+ }
+ 
+ .input_class:focus { 
+	 border-color: #dc3545 !important;
+ }
+ 
 .container {
 	background-color: #ffffff;
 	border-radius: 10px;

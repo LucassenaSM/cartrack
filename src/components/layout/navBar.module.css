@@ -32,11 +32,23 @@
 
 .header{
    display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
+   flex-direction: column;
+   justify-content: start;
+   align-items: flex-start;
    width: 20em;
    padding-right: 1em;
+   gap: 10px;
+}
+
+.header div{
+   display: flex;
+   flex-direction: row;
+   justify-content: baseline;
+   align-items: center;
+}
+
+.arrow{
+   margin-left: 1em;
 }
 
 .logo{
@@ -49,7 +61,7 @@
    list-style-type: none;
    margin-left: -10px;
    font-size: xx-large;
-   gap: 1.7em;
+   gap: 1.3em;
 
 }
 .pages{
@@ -70,11 +82,8 @@
    cursor: pointer;
 }
 
-.page{
-}
-
 .profile{
-   max-width: 260px;
+   max-width: 280px;
    display: flex;
    flex-direction: row;
    align-items: center;
@@ -85,7 +94,7 @@
 
 .profile:hover{
    background-color:#4f4f50;
-   width: 380px;
+   width: 400px;
    border-radius: 10px;
    transition: all 0.5s ease;
    color:white;
@@ -100,6 +109,59 @@ font-size: x-large;
    border-radius: 10em;
    max-height: 75px;
 }
+
+.flex {
+   display: flex;
+
+ }
+
+.profileOptions{
+   display: none;
+
+}
+
+.profileOptions.flex {
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   background-color: #929AAB;
+   width: 7.5em;
+   padding: 10px 0em;
+   border-radius: 10px;
+   position: fixed;
+   left: 21em;
+   bottom: 25px;
+   /* margin-bottom: 4em; */
+ }
+ .red{
+   color: red;
+ }
+
+ .black {
+   color: black;
+ }
+
+ .profile>h1.color{
+   font-size: x-large;
+   
+   }
+
+.profileOptions button{
+   width: 100%;
+   background-color: transparent !important;
+   border: transparent
+}
+.profileOptions button:hover{
+   background-color: #6e6e6e !important;
+   border: transparent !important;
+   color: white;
+}
+
+.logout_button:hover {
+   color: white !important; 
+   
+}
+
 /* ---------------------------------------------- */
 
 .allOff{
@@ -167,4 +229,45 @@ font-size: x-large;
    transition: all 0.5s ease;
    color:white;
    cursor: pointer;
+}
+
+.imgProfileOff{
+   border-radius: 10em;
+   max-height: 75px;
+}
+
+.flexOff {
+   display: flex;
+
+ }
+
+.profileOptionsOff{
+   display: none;
+
+}
+
+.profileOptionsOff.flexOff {
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+   background-color: red;
+   width: 7.5em;
+   padding: 10px 0em;
+   border-radius: 10px;
+   position: fixed;
+   left: 6.5em;
+   bottom: 25px;
+   
+   /* margin-bottom: 4em; */
+ }
+
+ .profileOptionsOff button{
+   width: 100%;
+   background-color: transparent !important;
+   border: transparent
+}
+.profileOptionsOff button:hover{
+   border: transparent !important;
+   color: white;
+  
 }

@@ -47,6 +47,37 @@ try {
     });
   });
 
+  app.post("/updateSessionToken", (req, res) => {
+    const { username, sessionToken } = req.body;
+    const expiryDate = new Date(sessionToken.expiryDate);
+    const sqlDatetime = `${expiryDate.getFullYear()}-${expiryDate.getMonth()+1}-${expiryDate.getDate()} ${expiryDate.getHours()}:${expiryDate.getMinutes()}:${expiryDate.getSeconds()}`;
+    con.query("UPDATE login SET sessionToken = ?, expiryDate = ? WHERE username = ?", [sessionToken.token, sqlDatetime, username], (error, results) => {
+      if (error) {
+        console.error("Erro:", error);
+        res.status(500).json({ message: 'Erro no servidor' });
+      } else {
+        res.json({ message: 'Session token updated successfully' });
+      }
+    });
+  });
+
+
+  app.post('/user', (req, res) => {
+    const { sessionToken } = req.body;
+    con.query("SELECT nome FROM login WHERE sessionToken = ?", [sessionToken.token], (error, results) => {
+      if (error) {
+        res.status(500).json({ message: 'Erro no servidor' });
+      } else {
+        if (results.length > 0) {
+          res.json({ name: results[0].nome }); 
+        } else {
+          res.json({ message: 'Usuário não encontrado' });
+        }
+      }
+    });
+  });
+
+
   app.listen("3030", () => {
     console.log("Servidor Pronto!");
   });
