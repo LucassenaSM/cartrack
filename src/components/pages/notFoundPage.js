@@ -38,6 +38,7 @@ const NotFoundPage = () => {
         <div className={Styles.all}>
           <div className={Styles.texts}>
             <h3>404</h3>
+            <img src={logo} alt="logo CarTrack"/>
             <h1>Página não encontrada</h1>
             <h3>
               Desculpe, não conseguimos localizar a página que você está

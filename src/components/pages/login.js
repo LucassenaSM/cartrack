@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import AlertError from "../layout/AlertError/alertError.js";
 import { v4 as uuidv4 } from "uuid";
+import sessionToken from "../functions/sessionToken.js";
 
 function Login() {
   const [showV, setShowV] = useState(false);
@@ -12,17 +13,7 @@ function Login() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    let sessionToken = localStorage.getItem("sessionToken");
-    try {
-      sessionToken = JSON.parse(sessionToken);
-    } catch (error) {
-      console.error("Erro ao analisar o token de sessão:", error);
-      localStorage.removeItem("sessionToken");
-    }
-
-    if (sessionToken && sessionToken.expiryDate > Date.now()) {
-      window.location.href = "cadastro";
-    }
+    sessionToken({page: "dashboard", pageAtual: "login"})
   }, []);
 
   function generateUniqueSessionToken() {
@@ -38,9 +29,9 @@ function Login() {
           <Modal.Title>Login Efetuado com Sucesso</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h6>
+          <p>
             Aguarde um momento, você será redirecionado automaticamente para página principal
-          </h6>
+          </p>
         </Modal.Body>
       </Modal>
     );
@@ -106,7 +97,7 @@ function Login() {
               });
             if (JSON.parse(localStorage.getItem("sessionToken"))) {
               setTimeout(function () {
-                window.location.href = "cadastro";
+                window.location.href = "dashboard";
               }, 2000);
             }
           } else {

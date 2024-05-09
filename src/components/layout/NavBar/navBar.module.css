@@ -4,24 +4,33 @@
    margin: 0px;
    padding: 0px;
    
+   
 }
 
+#content{
+   display: flex;
+   position: relative;
+   width: 6em;
+   height: 100vh;
+}
 
-.all{
+.all {
    position: fixed;
    top: 0;
    left: 0;
-   z-index: 999;
+   z-index: 9999;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
-   align-items:start;
+   align-items: start;
    width: 20em;
    height: 100vh;
    font-family: "Poppins", sans-serif;
    font-weight: 400;
    font-style: normal;
    border-right: 2px solid black;
+   background-color: white;
+   transition: width 0.2s ease;
 }
 
 .all li{
@@ -38,6 +47,7 @@
    width: 20em;
    padding-right: 1em;
    gap: 10px;
+   transition: width 0.3s ease;
 }
 
 .header div{
@@ -49,6 +59,7 @@
 
 .arrow{
    margin-left: 1em;
+   cursor: pointer;
 }
 
 .logo{
@@ -90,6 +101,7 @@
    gap: 10px;
    margin: 8px;
    padding: 10px;
+   transition: width 0.3s ease;
 }
 
 .profile:hover{
@@ -168,7 +180,7 @@ font-size: x-large;
    position: fixed;
    top: 0;
    left: 0;
-   z-index: 999;
+   z-index: 9999;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -179,6 +191,8 @@ font-size: x-large;
    font-weight: 400;
    font-style: normal;
    border-right: 2px solid black;
+   transition: width 0.3s ease;
+	background-color: white;
 }
 
 .headerOff{
@@ -187,6 +201,7 @@ font-size: x-large;
    align-items: center;
    width: 6em;
    gap: 10px;
+   
 }
 
 .navOff{
@@ -271,3 +286,25 @@ font-size: x-large;
    color: white;
   
 }
+
+@media screen and (max-width: 1600px) {
+  
+   .nav{
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      margin-left: -10px;
+      font-size: xx-large;
+      gap: 0.7em;
+   
+   }
+
+   .navOff{
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      gap: 1em;
+   
+   }
+}
+ 

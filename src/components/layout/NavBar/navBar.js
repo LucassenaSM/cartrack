@@ -1,12 +1,12 @@
-import Logo from "../img/logo.png";
-import Style from "./navBar.module.css";
+import Logo from "../../img/logo.png";
+import Style from "../NavBar/navBar.module.css";
 import React, { useEffect, useState } from "react";
 import { FaHome, FaRegUserCircle } from "react-icons/fa";
 import { FaRegFileArchive } from "react-icons/fa";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { GiCctvCamera } from "react-icons/gi";
 import { IoArrowBackOutline } from "react-icons/io5";
-import AlertError from "./AlertError/alertError.js";
+import AlertError from "../AlertError/alertError.js";
 
 const NavBar = () => {
   const [nome, setNome] = useState("");
@@ -41,7 +41,7 @@ const NavBar = () => {
   };
 
   const handleClickFlex = () => {
-    setIsFlex(!isFlex); 
+    setIsFlex(!isFlex);
   };
   useEffect(() => {
     const sessionToken = JSON.parse(localStorage.getItem("sessionToken"));
@@ -85,6 +85,9 @@ const NavBar = () => {
   if (show) {
     return (
       <>
+        <div id={Style.content}>
+          <p></p>
+        </div>
         <div className={Style.all}>
           <div className={Style.header}>
             <div>
@@ -97,9 +100,9 @@ const NavBar = () => {
             />
           </div>
           <ol className={Style.nav}>
-            <div className={Style.pages}>
+            <div className={Style.pages} onClick={() => {window.location.href = "dashboard";}}>
               <FaHome size={32} />
-              <li className={Style.page}>Início</li>
+              <li className={Style.page}>Dashboard</li>
             </div>
             <div className={Style.pages}>
               <FaRegFileArchive size={32} />
@@ -109,7 +112,7 @@ const NavBar = () => {
               <TbDeviceDesktopAnalytics size={32} />
               <li className={Style.page}>Estatísticas</li>
             </div>
-            <div className={Style.pages}>
+            <div className={Style.pages} onClick={() => {window.location.href = "cadastro";}}>
               <FaRegUserCircle size={32} />
               <li className={Style.page}>Usuários</li>
             </div>
@@ -132,16 +135,17 @@ const NavBar = () => {
   } else {
     return (
       <>
+        <div id={Style.content}></div>
         <div className={Style.allOff}>
           <div className={Style.headerOff}>
             <img src={Logo} alt="Logo CarTrack" className={Style.logo} />
             <IoArrowBackOutline
-              style={{ transform: "scaleX(-1)" }}
+              style={{ transform: "scaleX(-1)", cursor: "pointer" }}
               onClick={() => setShow(true)}
             />
           </div>
           <ol className={Style.navOff}>
-            <div className={Style.pagesOff}>
+            <div className={Style.pagesOff} onClick={() => {window.location.href = "dashboard";}}>
               <FaHome size={32} />
             </div>
             <div className={Style.pagesOff}>
@@ -150,7 +154,7 @@ const NavBar = () => {
             <div className={Style.pagesOff}>
               <TbDeviceDesktopAnalytics size={32} />
             </div>
-            <div className={Style.pagesOff}>
+            <div className={Style.pagesOff} onClick={() => {window.location.href = "cadastro";}}>
               <FaRegUserCircle size={32} />
             </div>
             <div className={Style.pagesOff}>

@@ -10,7 +10,7 @@
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
-    gap: 5em;
+    gap: 2.5em;
 }
 
 .texts{
@@ -25,7 +25,7 @@
 }
 
 .texts img{
-    width: 400px;
+    width: 350px;
 }
 
 .button{
@@ -39,6 +39,14 @@
 .button button{
     padding: 1em 2em;
     background-color: #4f4f50;
+    border: 1px solid #555557;
+    border-radius: 15px;
+    color: white;
+}
+
+.button button:hover{
+    padding: 1em 2em;
+    background-color: #3f3f3f;
     border: 1px solid #555557;
     border-radius: 15px;
     color: white;

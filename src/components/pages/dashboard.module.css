@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+#body {
+  display: flex;
+  flex-direction: row;
+  font-family: "Montserrat", sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+#main {
+  display: flex;
+  flex-direction: row;
+  width: 94vw;
+  height: 100vh;
+  color: black;
+  background-color: #F1F5F9;
+  gap: 2em;
+  padding: 3em 1.5em;
+}
+#left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6em;
+
+}
+
+#left h1 {
+  font-weight: bold;
+  padding: 8px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2); 
+  border: 2px solid gray;
+}
+
+#left img {
+  border: 2px solid gray;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 400px;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+}
+
+#placa {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+}
+
+#placaText {
+  display: flex;
+  font-weight: bold;
+  width: 19vw;
+  background-color: #ffffff;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+  border: 2px solid gray;
+}
+
+#status {
+  display: flex;
+  font-weight: bold;
+  width: 10vw;
+  background-color: #ffffff;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+  border: 2px solid gray;
+}
+
+#infos {
+  background-color: #ffffff;
+  width: 31vw;
+  height: 33vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 1em;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+  border: 2px solid gray;
+}
+
+#infos h2 {
+  font-weight: bold;
+}
+
+#right {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  min-width: 25vw;
+  padding: 1em;
+  border-radius: 10px;
+  gap: 0em;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+  border: 2px solid gray;
+}
+
+#right h1 {
+  font-weight: bold !important;
+  margin-bottom: 1em;
+}
+  
+.dados h2 {
+  font-weight: bold;
+}
+.dados h3 {
+  margin-left: 1em;
+}
+
+#historico {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  background-color: #ffffff;
+  padding: 2em 1em;
+  font-weight: bold;
+  gap: 1em;
+  margin: 0em 1em;
+  border-radius: 10px;
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+  border: 2px solid gray;
+}
+
+#historico h1 {
+  font-weight: bold;
+}
+
+.cardsHist {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 1em;
+  font-weight: bold;
+  background-color: #E2E8F0;
+  max-width: 27vw;
+  max-height: 20vh;
+  min-width: 27vw;
+  min-height: 15vh;
+  border-radius: 10px;
+  color: black;
+}
+
+.cardsHist h5 {
+  font-weight: bold;
+}
