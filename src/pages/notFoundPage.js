@@ -1,6 +1,6 @@
 import Styles from "./notFoundPage.module.css";
 import React, { useState, useEffect } from "react";
-import logo from "../img/logo.png";
+import logo from "../assets/img/logo.png";
 const NotFoundPage = () => {
   const [login, setLogin] = useState(false);
   useEffect(() => {

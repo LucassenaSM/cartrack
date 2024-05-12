@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import Styles from "./dashboard.module.css";
-import placaImg from "../../python/placa.png";
-import NavBar from "../layout/NavBar/navBar.js";
-import sessionToken from "../functions/sessionToken.js";
-
+import placaImg from "../python/placa.png";
+import NavBar from "../components/NavBar/navBar.js";
+import sessionToken from "../utils/sessionToken.js";
 const Dashboard = () => {
   // const [placa, setPlaca] = useState("Desconhecido");
   useEffect(() => {

@@ -1,10 +1,10 @@
 import css from "./login.module.css";
-import carro from "../img/bmw.png";
+import carro from "../assets/img/bmw.png";
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import AlertError from "../layout/AlertError/alertError.js";
+import AlertError from "../components/AlertError/alertError.js";
 import { v4 as uuidv4 } from "uuid";
-import sessionToken from "../functions/sessionToken.js";
+import sessionToken from "../utils/sessionToken.js";
 
 function Login() {
   const [showV, setShowV] = useState(false);

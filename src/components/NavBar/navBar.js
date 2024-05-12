@@ -1,4 +1,4 @@
-import Logo from "../../img/logo.png";
+import Logo from "../../assets/img/logo.png";
 import Style from "../NavBar/navBar.module.css";
 import React, { useEffect, useState } from "react";
 import { FaHome, FaRegUserCircle } from "react-icons/fa";

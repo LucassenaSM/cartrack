@@ -1,9 +1,9 @@
-import NavBar from "../layout/NavBar/navBar.js";
+import NavBar from "../components/NavBar/navBar.js";
 import React, { useEffect, useState, useMemo } from "react";
-import sessionToken from "../functions/sessionToken.js";
+import sessionToken from "../utils/sessionToken.js";
 import Styles from "./Cadastro.module.css";
-import "../../index.css";
-import "../layout/overlay.css";
+import "../index.css";
+import "../components/overlay.css";
 import {
   Table,
   TableHeader,
@@ -21,7 +21,7 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 import { useAsyncList } from "@react-stately/data";
-import { ocupacoes } from "../../assets/ocupacoes.js";
+import { ocupacoes } from "../utils/ocupacoes.js";
 import { FaRegUser, FaHouseUser, FaSearch } from "react-icons/fa";
 
 const Cadastro = () => {
