@@ -1,8 +1,11 @@
 import Styles from "./notFoundPage.module.css";
 import React, { useState, useEffect } from "react";
-import logo from "../assets/img/logo.png";
+import logo from "../../assets/img/logo.png";
+import { useNavigate } from "react-router-dom";
+
 const NotFoundPage = () => {
   const [login, setLogin] = useState(false);
+  let navigate = useNavigate();
   useEffect(() => {
     let sessionToken = localStorage.getItem('sessionToken');
     sessionToken = JSON.parse(sessionToken);
@@ -26,7 +29,7 @@ const NotFoundPage = () => {
             </h3>
           </div>
           <div className={Styles.button}>
-            <button onClick={() => {window.location.href = "dashboard";}}>Voltar para a dashboard</button>
+            <button onClick={() => navigate('/dashboard')}>Voltar para a dashboard</button>
             <h4>Ou entre em contato com o administrador</h4>
           </div>
         </div>
@@ -46,7 +49,7 @@ const NotFoundPage = () => {
             </h3>
           </div>
           <div className={Styles.button}>
-            <button onClick={() => {window.location.href = "login";}}>Voltar para o Login</button>
+            <button onClick={() => navigate('/login')}>Voltar para o Login</button>
             <h4>Ou entre em contato com o administrador</h4>
           </div>
         </div>

@@ -1,45 +1,40 @@
-  const sessionToken = (props) => {
-    let sessionToken = localStorage.getItem("sessionToken");
-    if (!sessionToken && props.pageAtual !== "login") {
-      window.location.href = props.page;
-      return;
-    } else {
-      try {
-        sessionToken = JSON.parse(sessionToken);
-      } catch (error) {
-        console.error("Erro ao analisar o token de sessão:", error);
-        localStorage.removeItem("sessionToken");
-      }
-      fetch("http://localhost:3030/readSessionToken", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          sessionToken: sessionToken,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          let validade = new Date(data.expiryDate).getTime();
+import axios from "axios";
 
-          if (
-            !sessionToken ||
-            (validade > Date.now() && props.pageAtual === "login")
-          ) {
-            window.location.href = props.page;
-          }
-          if (
-            !sessionToken ||
-            (validade < Date.now() && props.pageAtual !== "login")
-          ) {
-            window.location.href = props.page;
-          }
-        })
-        .catch((error) => {
-          console.error("Erro:", error);
-        });
+const sessionToken = (props, navigate) => {
+  let sessionToken = localStorage.getItem("sessionToken");
+  if (!sessionToken && props.pageAtual !== "login") {
+    navigate(props.page);
+    return;
+  } else {
+    try {
+      sessionToken = JSON.parse(sessionToken);
+    } catch (error) {
+      console.error("Erro ao analisar o token de sessão:", error);
+      localStorage.removeItem("sessionToken");
     }
-  };
+    axios.post("http://localhost:3030/readSessionToken", {
+      sessionToken: sessionToken,
+    })
+      .then((response) => {
+        let validade = new Date(response.data.expiryDate).getTime();
 
-  export default sessionToken;
+        if (
+          !sessionToken ||
+          (validade > Date.now() && props.pageAtual === "login")
+        ) {
+          navigate(props.page);
+        }
+        if (
+          !sessionToken ||
+          (validade < Date.now() && props.pageAtual !== "login")
+        ) {
+          navigate(props.page);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
+  }
+};
+
+export default sessionToken;

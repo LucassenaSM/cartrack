@@ -1,20 +1,25 @@
 import css from "./login.module.css";
-import carro from "../assets/img/bmw.png";
+import carro from "../../assets/img/bmw.png";
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import AlertError from "../components/AlertError/alertError.js";
+import AlertError from "../../components/AlertError/alertError.js";
 import { v4 as uuidv4 } from "uuid";
-import sessionToken from "../utils/sessionToken.js";
+import sessionToken from "../../utils/sessionToken.js";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function Login() {
   const [showV, setShowV] = useState(false);
   const [showError, setShowError] = useState(false);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  let navigate = useNavigate();
+
 
   useEffect(() => {
-    sessionToken({page: "dashboard", pageAtual: "login"})
-  }, []);
+    sessionToken({ page: "/dashboard", pageAtual: "login" }, navigate);
+  }, [navigate]);
 
   function generateUniqueSessionToken() {
     const sessionToken = uuidv4();
@@ -30,7 +35,8 @@ function Login() {
         </Modal.Header>
         <Modal.Body>
           <p>
-            Aguarde um momento, você será redirecionado automaticamente para página principal
+            Aguarde um momento, você será redirecionado automaticamente para
+            página principal
           </p>
         </Modal.Body>
       </Modal>
@@ -51,53 +57,31 @@ function Login() {
       setTitle("Campo da Senha está Branco");
       setMessage("Por favor insira a Senha");
     } else {
-      fetch("http://localhost:3030/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      axios.post("http://localhost:3030/login", {
           username: parseInt(user),
           password: password,
-        }),
-      })
+        })
         .then((response) => {
-          if (!response.ok) {
-            throw new Error("Erro na resposta do servidor");
-          }
-          return response.json();
+          return response.data;
         })
         .then((data) => {
           if (data.message === "Os dados correspondem") {
             setShowV(true);
             const sessionToken = generateUniqueSessionToken();
             localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
-            fetch("http://localhost:3030/updateSessionToken", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
+            axios.post("http://localhost:3030/updateSessionToken", {
                 username: user,
                 sessionToken: sessionToken,
-              }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                if (data.message === "Session token updated successfully") {
-                  console.log(
-                    "Session token saved in the database successfully"
-                  );
-                } else {
-                  console.log("Failed to save session token in the database");
-                }
+              })
+              .then((response) => {
+                return response.data;
               })
               .catch((error) => {
                 console.error("Erro:", error);
               });
             if (JSON.parse(localStorage.getItem("sessionToken"))) {
               setTimeout(function () {
-                window.location.href = "dashboard";
+                navigate('/dashboard');
               }, 2000);
             }
           } else {

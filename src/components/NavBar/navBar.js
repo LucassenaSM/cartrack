@@ -7,6 +7,8 @@ import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { GiCctvCamera } from "react-icons/gi";
 import { IoArrowBackOutline } from "react-icons/io5";
 import AlertError from "../AlertError/alertError.js";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const NavBar = () => {
   const [nome, setNome] = useState("");
@@ -17,6 +19,7 @@ const NavBar = () => {
   const [message, setMessage] = useState("");
   const [isFlex, setIsFlex] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  let navigate = useNavigate();
 
   useEffect(() => {
     let timer;
@@ -36,7 +39,7 @@ const NavBar = () => {
     } else {
       setNome(nomeOriginal);
       localStorage.removeItem("sessionToken");
-      window.location.href = "login";
+      navigate('/login');
     }
   };
 
@@ -45,25 +48,16 @@ const NavBar = () => {
   };
   useEffect(() => {
     const sessionToken = JSON.parse(localStorage.getItem("sessionToken"));
-    fetch("http://localhost:3030/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sessionToken: sessionToken,
-      }),
+    axios.post("http://localhost:3030/user", {
+      sessionToken: sessionToken,
     })
       .then((response) => {
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error("Erro na resposta do servidor");
         }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.name) {
-          setNome(data.name);
-          setNomeOriginal(data.name);
+        if (response.data.name) {
+          setNome(response.data.name);
+          setNomeOriginal(response.data.name);
         } else {
           setShowError(true);
           setTitle("Erro no usuário");
@@ -100,7 +94,7 @@ const NavBar = () => {
             />
           </div>
           <ol className={Style.nav}>
-            <div className={Style.pages} onClick={() => {window.location.href = "dashboard";}}>
+            <div className={Style.pages} onClick={() => navigate('/dashboard')}>
               <FaHome size={32} />
               <li className={Style.page}>Dashboard</li>
             </div>
@@ -112,7 +106,7 @@ const NavBar = () => {
               <TbDeviceDesktopAnalytics size={32} />
               <li className={Style.page}>Estatísticas</li>
             </div>
-            <div className={Style.pages} onClick={() => {window.location.href = "cadastro";}}>
+            <div className={Style.pages} onClick={() => navigate('/cadastro')}>
               <FaRegUserCircle size={32} />
               <li className={Style.page}>Usuários</li>
             </div>
@@ -145,7 +139,7 @@ const NavBar = () => {
             />
           </div>
           <ol className={Style.navOff}>
-            <div className={Style.pagesOff} onClick={() => {window.location.href = "dashboard";}}>
+            <div className={Style.pagesOff} onClick={() => navigate('/dashboard')}>
               <FaHome size={32} />
             </div>
             <div className={Style.pagesOff}>
@@ -154,7 +148,7 @@ const NavBar = () => {
             <div className={Style.pagesOff}>
               <TbDeviceDesktopAnalytics size={32} />
             </div>
-            <div className={Style.pagesOff} onClick={() => {window.location.href = "cadastro";}}>
+            <div className={Style.pagesOff} onClick={() => navigate('/cadastro')}>
               <FaRegUserCircle size={32} />
             </div>
             <div className={Style.pagesOff}>

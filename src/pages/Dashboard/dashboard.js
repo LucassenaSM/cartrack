@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Styles from "./dashboard.module.css";
-import placaImg from "../python/placa.png";
-import NavBar from "../components/NavBar/navBar.js";
-import sessionToken from "../utils/sessionToken.js";
+import placaImg from "../../python/placa.png";
+import NavBar from "../../components/NavBar/navBar.js";
+import sessionToken from "../../utils/sessionToken.js";
+import { useNavigate } from "react-router-dom";
+
 const Dashboard = () => {
   // const [placa, setPlaca] = useState("Desconhecido");
+  let navigate = useNavigate();
   useEffect(() => {
-    sessionToken({ page: "login" });
-  }, []);
+    sessionToken({ page: "/login" }, navigate);
+  }, [navigate]);
  
   let sessionTokenValue = localStorage.getItem("sessionToken");
   if (!sessionTokenValue) {
