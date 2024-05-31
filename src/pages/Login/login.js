@@ -5,9 +5,8 @@ import { Modal } from "react-bootstrap";
 import AlertError from "../../components/AlertError/alertError.js";
 import { v4 as uuidv4 } from "uuid";
 import sessionToken from "../../utils/sessionToken.js";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { login, updateSessionToken } from "../../api.js";
 
 function Login() {
   const [showV, setShowV] = useState(false);
@@ -15,7 +14,6 @@ function Login() {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   let navigate = useNavigate();
-
 
   useEffect(() => {
     sessionToken({ page: "/dashboard", pageAtual: "login" }, navigate);
@@ -57,45 +55,31 @@ function Login() {
       setTitle("Campo da Senha está Branco");
       setMessage("Por favor insira a Senha");
     } else {
-      axios.post("http://localhost:3030/login", {
-          username: parseInt(user),
-          password: password,
-        })
-        .then((response) => {
-          return response.data;
-        })
-        .then((data) => {
-          if (data.message === "Os dados correspondem") {
-            setShowV(true);
-            const sessionToken = generateUniqueSessionToken();
-            localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
-            axios.post("http://localhost:3030/updateSessionToken", {
-                username: user,
-                sessionToken: sessionToken,
-              })
-              .then((response) => {
-                return response.data;
-              })
-              .catch((error) => {
-                console.error("Erro:", error);
-              });
-            if (JSON.parse(localStorage.getItem("sessionToken"))) {
-              setTimeout(function () {
-                navigate('/dashboard');
-              }, 2000);
-            }
-          } else {
-            setShowError(true);
-            setTitle("Dados não correspondentes");
-            setMessage("O usuário ou senha estão incorretos");
+      try {
+        login(parseInt(user), password)
+        .then(response => {
+        if (response.data.message === "Os dados correspondem") {
+          setShowV(true);
+          const sessionToken = generateUniqueSessionToken();
+          localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
+          updateSessionToken(user, sessionToken);
+          if (JSON.parse(localStorage.getItem("sessionToken"))) {
+            setTimeout(function () {
+              navigate("/dashboard");
+            }, 2000);
           }
-        })
-        .catch((error) => {
-          console.error("Erro:", error);
+        } else {
           setShowError(true);
-          setTitle("Error no Servidor");
-          setMessage("Aguarde um momento");
-        });
+          setTitle("Dados não correspondentes");
+          setMessage("O usuário ou senha estão incorretos");
+        }
+      });
+      } catch (error) {
+        console.error("Erro:", error);
+        setShowError(true);
+        setTitle("Erro no Servidor");
+        setMessage("Aguarde um momento", error);
+      }
     }
   }
 

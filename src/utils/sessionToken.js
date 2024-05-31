@@ -1,4 +1,4 @@
-import axios from "axios";
+import { readSessionToken } from ".././api.js";
 
 const sessionToken = (props, navigate) => {
   let sessionToken = localStorage.getItem("sessionToken");
@@ -12,9 +12,7 @@ const sessionToken = (props, navigate) => {
       console.error("Erro ao analisar o token de sessão:", error);
       localStorage.removeItem("sessionToken");
     }
-    axios.post("http://localhost:3030/readSessionToken", {
-      sessionToken: sessionToken,
-    })
+      readSessionToken(sessionToken)
       .then((response) => {
         let validade = new Date(response.data.expiryDate).getTime();
 

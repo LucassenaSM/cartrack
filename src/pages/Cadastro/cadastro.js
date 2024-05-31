@@ -23,10 +23,14 @@ import {
 import { useAsyncList } from "@react-stately/data";
 import { ocupacoes } from "../../utils/ocupacoes.js";
 import { FaRegUser, FaHouseUser, FaSearch } from "react-icons/fa";
+import { RiFileExcel2Line } from "react-icons/ri";
+import { MdFileUpload } from "react-icons/md";
+import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
 
 const Cadastro = () => {
   const [data, setData] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
   let navigate = useNavigate();
   useEffect(() => {
     sessionToken({ page: "/login" }, navigate);
@@ -45,7 +49,12 @@ const Cadastro = () => {
     },
   });
 
+  const Residentes = (data) => {
+    return data.filter((item) => item.Residente).length;
+  };
+
   const dataLength = data ? data.length : 0;
+  const numResidentes = data ? Residentes(data) : 0;
 
   const items = useMemo(() => {
     if (!data) {
@@ -76,6 +85,28 @@ const Cadastro = () => {
 
     return itemsToDisplay;
   }, [data, list.sortDescriptor]);
+
+  const filteredItems = useMemo(() => {
+    if (!searchTerm) {
+      return items;
+    }
+
+    return items.filter((item) =>
+      Object.keys(item).some(
+        (key) =>
+          key !== "opcoes" &&
+          String(item[key]).toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [items, searchTerm]);
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
+    XLSX.writeFile(workbook, "usuarios_cadastrados.xlsx");
+  };
+
 
   const [nome, setNome] = useState("");
   const [ocupacao, setOcupacao] = useState("");
@@ -151,14 +182,30 @@ const Cadastro = () => {
                     <FaHouseUser size={32} />
                     <h4>Residentes</h4>
                   </div>
-                  <h2>10</h2>
+                  <h2>{numResidentes}</h2>
                 </CardBody>
               </Card>
+              <div id={Styles.cardbuttons}>
+                <Button
+                  color="success"
+                  onPressEnd={exportToExcel}
+                  startContent={<MdFileUpload color="white" />}
+                  endContent={<RiFileExcel2Line color="white" />}
+                >
+                  Exportar para o Excel
+                </Button>
+              </div>
             </div>
             <Card>
               <CardBody id={Styles.search}>
-                <Input type="text" label="Pesquisa" variant="underlined" />
-                <Button color="primary" radius="sm" variant="light">
+                <Input
+                  type="text"
+                  label="Pesquisa"
+                  variant="underlined"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <Button radius="sm" variant="light">
                   <FaSearch />
                 </Button>
               </CardBody>
@@ -173,55 +220,59 @@ const Cadastro = () => {
             onSortChange={list.sort}
           >
             <TableHeader>
-              <TableColumn key="nome" allowsSorting>
+              <TableColumn key="Nome" allowsSorting>
                 NOME
               </TableColumn>
-              <TableColumn key="ocupacao" minWidth={250} allowsSorting>
+              <TableColumn key="Ocupacão" minWidth={250} allowsSorting>
                 OCUPAÇÃO
               </TableColumn>
-              <TableColumn key="placa" minWidth={100} allowsSorting>
+              <TableColumn key="Placa" minWidth={100} allowsSorting>
                 PLACA
               </TableColumn>
-              <TableColumn key="siape" minWidth={100} allowsSorting>
+              <TableColumn key="Siape" minWidth={100} allowsSorting>
                 SIAPE
               </TableColumn>
-              <TableColumn key="residente" minWidth={100} allowsSorting>
+              <TableColumn key="Residente" minWidth={100} allowsSorting>
                 RESIDENTE
               </TableColumn>
               <TableColumn minWidth={300}>OPÇÕES</TableColumn>
             </TableHeader>
             <TableBody>
-              {items.map((item, index) => (
-                <TableRow key={index}>
-                  {Object.keys(item).map((columnKey) => {
-                    if (columnKey === "residente") {
-                      return (
-                        <TableCell key={columnKey}>
-                          {item[columnKey] ? "Residente" : "Não residente"}
-                        </TableCell>
-                      );
-                    } else {
-                      return (
-                        <TableCell key={columnKey}>
-                          {getKeyValue(item, columnKey)}
-                        </TableCell>
-                      );
-                    }
-                  })}
-                  <TableCell>
-                    <Button
-                      color="primary"
-                      variant="bordered"
-                      onPressEnd={() => handleEdit(item)}
-                    >
-                      ALTERAR
-                    </Button>{" "}
-                    <Button color="danger" variant="bordered">
-                      DELETAR
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {(searchTerm === null ? items : filteredItems).map(
+                (item, index) => (
+                  <TableRow key={index}>
+                    {Object.keys(item).map((columnKey) => {
+                      if (columnKey === "Residente") {
+                        return (
+                          <TableCell key={columnKey}>
+                            {item[columnKey] ? "Residente" : "Não residente"}
+                          </TableCell>
+                        );
+                      } else {
+                        return (
+                          <TableCell key={columnKey}>
+                            {getKeyValue(item, columnKey)}
+                          </TableCell>
+                        );
+                      }
+                    })}
+                    <TableCell>
+                      <div className={Styles.buttons}>
+                        <Button
+                          color="primary"
+                          variant="bordered"
+                          onPressEnd={() => handleEdit(item)}
+                        >
+                          ALTERAR
+                        </Button>
+                        <Button color="danger" variant="bordered">
+                          DELETAR
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </div>

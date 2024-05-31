@@ -10,7 +10,7 @@
 #main {
   display: flex;
   flex-direction: column;
-  width: 94vw;
+  width: 97vw;
   height: 100vh;
   color: black;
   background-color: #f1f5f9;
@@ -75,6 +75,7 @@ width: 30vw;
 
 #stats {
     display: flex;
+    align-items: center;
     gap: 1em;
 }
 
@@ -105,5 +106,16 @@ width: 30vw;
 .buttons {
   display: flex;
   flex-direction: row;
-  gap: 1em;
+  gap: 10px;
+}
+
+#cardbuttons{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: white;
+}
+#import {
+  display: flex;
+  flex-direction: row;
 }

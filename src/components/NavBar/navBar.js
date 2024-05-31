@@ -8,7 +8,7 @@ import { GiCctvCamera } from "react-icons/gi";
 import { IoArrowBackOutline } from "react-icons/io5";
 import AlertError from "../AlertError/alertError.js";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { getUserBySessionToken} from "../../api.js";
 
 const NavBar = () => {
   const [nome, setNome] = useState("");
@@ -48,9 +48,7 @@ const NavBar = () => {
   };
   useEffect(() => {
     const sessionToken = JSON.parse(localStorage.getItem("sessionToken"));
-    axios.post("http://localhost:3030/user", {
-      sessionToken: sessionToken,
-    })
+    getUserBySessionToken(sessionToken)
       .then((response) => {
         if (response.status !== 200) {
           throw new Error("Erro na resposta do servidor");
@@ -70,7 +68,7 @@ const NavBar = () => {
         console.error("Erro:", error);
         setShowError(true);
         setTitle("Error no Servidor");
-        setMessage("Aguarde um momento");
+        setMessage("Aguarde um momento - Usuário não Encontrado");
         setNome("Usuário não encontrado");
         setNomeOriginal("Usuário não Encontrado");
       });

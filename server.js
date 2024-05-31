@@ -1,23 +1,35 @@
 import express from "express";
+import RateLimit from 'express-rate-limit';
 import mysql from "mysql";
 import cors from "cors";
+import dotenv from 'dotenv';
 import { PythonShell } from "python-shell";
 const app = new express();
+dotenv.config();
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  }),
-  express.json()
-);
+var limiter = RateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100, 
+});
+
+app.use(limiter, cors({
+  origin: "http://localhost:3000"
+}), express.json());
+
 
 try {
   const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "admin",
-    database: "login",
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
   });
+
+  con.connect(err => {
+    if (err) throw err;
+    console.log('Conexão com o banco de dados estabelecida com sucesso.');
+  });
+
   app.get("/", (req, res) => {
     con.query("SELECT * FROM login", (erro, result) => {
       res.send(result);
@@ -27,8 +39,6 @@ try {
 
   app.post("/login", (req, res) => {
     const { username, password } = req.body;
-    console.log(username, password);
-    // Consulta para selecionar o usuário com o nome de usuário fornecido
     con.query(
       "SELECT * FROM login WHERE Username = ?",
       [username],
@@ -37,8 +47,6 @@ try {
           res.status(500).json({ message: "Erro no servidor" });
         } else if (results.length > 0) {
           const user = results[0];
-          console.log(user);
-          // Comparar a senha fornecida com a senha do banco de dados
           if (password === user.password) {
             res.json({ message: "Os dados correspondem" });
           } else {
@@ -73,22 +81,24 @@ try {
 
   app.post("/readSessionToken", (req, res) => {
     const { sessionToken } = req.body;
-    con.query(
-      "SELECT expiryDate FROM login WHERE sessionToken= ?",
-      [sessionToken.token],
-      (error, results) => {
-        if (error) {
-          console.error("Erro:", error);
-          res.status(500).json({ message: "Erro no servidor" });
-        } else {
-          if (results.length > 0) {
-            res.json({ expiryDate: results[0].expiryDate });
+    if (sessionToken) {
+      con.query(
+        "SELECT expiryDate FROM login WHERE sessionToken= ?",
+        [sessionToken.token],
+        (error, results) => {
+          if (error) {
+            console.error("Erro:", error);
+            res.status(500).json({ message: "Erro no servidor" });
           } else {
-            res.json({ message: "none" });
+            if (results.length > 0) {
+              res.json({ expiryDate: results[0].expiryDate });
+            } else {
+              res.json({ message: "none" });
+            }
           }
         }
-      }
-    );
+      );
+    }
   });
 
   app.post("/user", (req, res) => {
@@ -102,9 +112,7 @@ try {
         } else {
           if (results.length > 0) {
             res.json({ name: results[0].nome });
-          } else {
-            res.json({ message: "Usuário não encontrado" });
-          }
+          } else res.json({ message: "Usuário não encontrado" });
         }
       }
     );
@@ -116,13 +124,12 @@ try {
       pythonOptions: ["-u"],
       scriptPath: "C:/Users/lucas/Documentos/Cartrack/src/python/",
     };
-  
-    PythonShell.run("app.py", options).then(message => {
-        console.log("Resulta:" + message);
-        res.json({ resultado: message });
+
+    PythonShell.run("app.py", options).then((message) => {
+      console.log("Resulta:" + message);
+      res.json({ resultado: message });
     });
   });
-
 
   app.listen("3030", () => {
     console.log("Servidor Pronto!");
@@ -133,98 +140,98 @@ try {
 
 const db = [
   {
-    nome: 'Felipe Ribeiro Carneir',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneir",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: false,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Administrativo',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: true,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Administrativo",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: true,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: true,
+    Nome: "Lucas Sena",
+    Ocupacão: "Servidor - Professor",
+    Placa: "2131232",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: true,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Administrativo',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: true,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Administrativo",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: true,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: true,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: false,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: false,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: false,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: false,
   },
   {
-    nome: 'Felipe Ribeiro Carneiro',
-    ocupacao: 'Servidor - Professor',
-    placa: 'AAA1A11',
-    siape: '1324143',
-    residente: false,
+    Nome: "Felipe Ribeiro Carneiro",
+    Ocupacão: "Servidor - Professor",
+    Placa: "AAA1A11",
+    Siape: "1324143",
+    Residente: false,
   },
 ];
 
-app.get('/usuarios', (req, res) => {
+app.get("/usuarios", (req, res) => {
   res.json(db);
 });
