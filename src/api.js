@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3030' || 'https://cartrack-rosy.vercel.app';
+
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://cartrack-rosy.vercel.app' 
+  : 'http://localhost:3030'; 
+
 export const getLogins = () => axios.get(`${API_URL}/`);
 
 export const login = (username, password) => axios.post(`${API_URL}/login`, { username, password });
