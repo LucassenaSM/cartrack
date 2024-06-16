@@ -4,6 +4,7 @@ import Main from './pages/main.js';
 import NotFoundPage from './pages/NotFound/notFoundPage.js';
 import Cadastro from './pages/Cadastro/cadastro.js';
 import Dashboard from './pages/Dashboard/dashboard.js';
+import Estatisticas from './pages/Estatisticas/estatisticas.js';
 
 function Rotas() {
   return (
@@ -14,6 +15,7 @@ function Rotas() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/estatisticas" element={<Estatisticas />} />
       </Routes>
     </Router>
   );

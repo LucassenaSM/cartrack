@@ -8,7 +8,6 @@ import { GiCctvCamera } from "react-icons/gi";
 import { IoArrowBackOutline } from "react-icons/io5";
 import AlertError from "../AlertError/alertError.js";
 import { useNavigate } from "react-router-dom";
-import { getUserBySessionToken} from "../../api.js";
 
 const NavBar = () => {
   const [nome, setNome] = useState("");
@@ -47,31 +46,17 @@ const NavBar = () => {
     setIsFlex(!isFlex);
   };
   useEffect(() => {
-    const sessionToken = JSON.parse(localStorage.getItem("sessionToken"));
-    getUserBySessionToken(sessionToken)
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error("Erro na resposta do servidor");
-        }
-        if (response.data.name) {
-          setNome(response.data.name);
-          setNomeOriginal(response.data.name);
-        } else {
-          setShowError(true);
-          setTitle("Erro no usuário");
-          setMessage("Recarregue a pagina, não foi possivel achar o usuário");
-          setNome("Usuário não Encontrado");
-          setNomeOriginal("Usuário não Encontrado");
-        }
-      })
-      .catch((error) => {
-        console.error("Erro:", error);
-        setShowError(true);
-        setTitle("Error no Servidor");
-        setMessage("Aguarde um momento - Usuário não Encontrado");
-        setNome("Usuário não encontrado");
-        setNomeOriginal("Usuário não Encontrado");
-      });
+    const user = localStorage.getItem("user");
+    if(user){
+    setNome(user);
+    setNomeOriginal(user);
+    }else{
+      setShowError(true);
+      setTitle("Erro no usuário");
+      setMessage("Recarregue a pagina, não foi possivel achar o usuário");
+      setNome("Usuário não Encontrado");
+      setNomeOriginal("Usuário não Encontrado");
+    }
   }, []);
 
   if (show) {
@@ -102,7 +87,7 @@ const NavBar = () => {
             </div>
             <div className={Style.pages}>
               <TbDeviceDesktopAnalytics size={32} />
-              <li className={Style.page}>Estatísticas</li>
+              <li className={Style.page} onClick={() => navigate('/estatisticas')}>Estatísticas</li>
             </div>
             <div className={Style.pages} onClick={() => navigate('/cadastro')}>
               <FaRegUserCircle size={32} />
@@ -144,7 +129,7 @@ const NavBar = () => {
               <FaRegFileArchive size={32} />
             </div>
             <div className={Style.pagesOff}>
-              <TbDeviceDesktopAnalytics size={32} />
+              <TbDeviceDesktopAnalytics size={32} onClick={() => navigate('/estatisticas')} />
             </div>
             <div className={Style.pagesOff} onClick={() => navigate('/cadastro')}>
               <FaRegUserCircle size={32} />

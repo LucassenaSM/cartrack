@@ -117,11 +117,11 @@ const Cadastro = () => {
   const [showA, setShowA] = useState(false);
 
   const handleEdit = (item) => {
-    setNome(item.nome);
-    setOcupacao(item.ocupacao);
-    setPlaca(item.placa);
-    setSiape(item.siape);
-    setResidente(item.residente);
+    setNome(item.Nome);
+    setOcupacao(item.Ocupacão);
+    setPlaca(item.Placa);
+    setSiape(item.Siape);
+    setResidente(item.Residente);
     setShowE(true);
   };
 

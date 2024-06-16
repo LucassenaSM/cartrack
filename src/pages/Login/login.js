@@ -6,7 +6,7 @@ import AlertError from "../../components/AlertError/alertError.js";
 import { v4 as uuidv4 } from "uuid";
 import sessionToken from "../../utils/sessionToken.js";
 import { useNavigate } from "react-router-dom";
-import { login, updateSessionToken } from "../../api.js";
+import { login, updateSessionToken,  getUserBySessionToken } from "../../api.js";
 
 function Login() {
   const [showV, setShowV] = useState(false);
@@ -63,6 +63,21 @@ function Login() {
           const sessionToken = generateUniqueSessionToken();
           localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
           updateSessionToken(user, sessionToken);
+          getUserBySessionToken(sessionToken)
+          .then((response) => {
+            if (response.status !== 200) {
+              throw new Error("Erro na resposta do servidor");
+            }
+            if (response.data.name) {
+              localStorage.setItem("user", response.data.name);
+            }
+          })
+          .catch((error) => {
+            console.error("Erro:", error);
+            setShowError(true);
+            setTitle("Error no Servidor");
+            setMessage("Aguarde um momento - Usuário não Encontrado");
+          });
           if (JSON.parse(localStorage.getItem("sessionToken"))) {
             setTimeout(function () {
               navigate("/dashboard");

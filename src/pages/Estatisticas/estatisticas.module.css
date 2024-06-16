@@ -1,0 +1,7 @@
+#body{
+    display: flex;
+}
+.Grafico{
+    width: 50vw;
+    height: 50vh;
+}
