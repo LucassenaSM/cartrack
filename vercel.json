@@ -1,9 +1,3 @@
-{
-    "version": 2,
-    "routes": [
-      { "src": "/api/login", "dest": "/api/login.js" },
-      { "src": "/api/getUsuarios", "dest": "/api/getUsuarios.js" },
-      { "src": "/api/readSessionToken", "dest": "/api/readSessionToken.js" },
-      { "src": "/api/updateSessionToken", "dest": "/api/updateSessionToken.js" }
-    ]
-  }
+{ "version": 2, 
+"rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+ }
