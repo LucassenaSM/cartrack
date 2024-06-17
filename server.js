@@ -20,7 +20,7 @@ const pool = createPool({
 
 app.use(express.json());
 
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -43,7 +43,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/updateSessionToken", async (req, res) => {
+app.post("/api/updateSessionToken", async (req, res) => {
   const { username, sessionToken } = req.body;
   const expiryDate = new Date(sessionToken.expiryDate);
   const sqlDatetime = `${expiryDate.getFullYear()}-${
@@ -62,7 +62,7 @@ app.post("/updateSessionToken", async (req, res) => {
   }
 });
 
-app.post("/readSessionToken", async (req, res) => {
+app.post("/api/readSessionToken", async (req, res) => {
   const { sessionToken } = req.body;
 
   try {
@@ -82,7 +82,7 @@ app.post("/readSessionToken", async (req, res) => {
   }
 });
 
-app.post("/user", async (req, res) => {
+app.post("/api/user", async (req, res) => {
   const { sessionToken } = req.body;
   try {
     const { rows } = await pool.query(

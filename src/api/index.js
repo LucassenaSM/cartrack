@@ -95,5 +95,6 @@ app.post('api/login', async (req, res) => {
       res.status(500).json({ message: "Erro no servidor" });
     }
   });
+  const PORT = process.env.PORT || 3030;
 
-  app.listen(3030, () => console.log("Server ready on port 3000."));
+  app.listen(PORT, () => console.log("Server ready on port 3000."));
