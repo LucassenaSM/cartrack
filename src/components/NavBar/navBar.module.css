@@ -109,14 +109,19 @@
    width: 400px;
    border-radius: 10px;
    transition: all 0.5s ease;
-   color:white;
+   color:white !important;
    cursor: pointer;
 }
+
+.profile:hover h1 {
+   color: white;
+ }
 
 .profile>h1{
 font-size: x-large;
 
 }
+
 .imgProfile{
    border-radius: 10em;
    max-height: 75px;
@@ -154,7 +159,7 @@ font-size: x-large;
  }
 
  .profile>h1.color{
-   font-size: x-large;
+   font-size: xx-large;
    
    }
 

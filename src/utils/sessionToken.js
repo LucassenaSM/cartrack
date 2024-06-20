@@ -16,16 +16,11 @@ const sessionToken = (props, navigate) => {
       .then((response) => {
         let validade = new Date(response.data.expiryDate).getTime();
 
-        if (
-          !sessionToken ||
-          (validade > Date.now() && props.pageAtual === "login")
-        ) {
+        if (!sessionToken) {
           navigate(props.page);
-        }
-        if (
-          !sessionToken ||
-          (validade < Date.now() && props.pageAtual !== "login")
-        ) {
+        } else if (validade > Date.now() && props.pageAtual === "login") {
+          navigate(props.page);
+        } else if (validade < Date.now() && props.pageAtual !== "login") {
           navigate(props.page);
         }
       })

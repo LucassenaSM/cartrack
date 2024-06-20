@@ -128,8 +128,8 @@ const NavBar = () => {
             <div className={Style.pagesOff}>
               <FaRegFileArchive size={32} />
             </div>
-            <div className={Style.pagesOff}>
-              <TbDeviceDesktopAnalytics size={32} onClick={() => navigate('/estatisticas')} />
+            <div className={Style.pagesOff}  onClick={() => navigate('/estatisticas')}>
+              <TbDeviceDesktopAnalytics size={32} />
             </div>
             <div className={Style.pagesOff} onClick={() => navigate('/cadastro')}>
               <FaRegUserCircle size={32} />

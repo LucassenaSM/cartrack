@@ -1,60 +1,71 @@
 import NavBar from "../../components/NavBar/navBar.js";
-import Styles from "./estatisticas.module.css"
+import Styles from "./estatisticas.module.css";
 // import Grafico from "../../components/grafico.js";
-import React,{ useEffect, useRef, useState } from "react";
-import Chart from 'chart.js/auto';
+import React, { useEffect, useRef, useState } from "react";
+import Load from "../../components/Load/load.js";
+import Chart from "chart.js/auto";
 
 const Estatisticas = () => {
-    const [data, setData] = useState();
-    const chartRef = useRef(null);
-    const chartInstanceRef = useRef(null);
+  const [data, setData] = useState();
+  const [load, setLoad] = useState(true);
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            let res = await fetch("http://localhost:3030/usuarios");
-            let json = await res.json();
-            setData(json);
-        };
-        fetchData();
-    }, []);
-
-    const Residentes = (data) => {
-        return data.filter((item) => item.Residente).length;
+  useEffect(() => {
+    const fetchData = async () => {
+      let res = await fetch("http://localhost:3030/usuarios");
+      let json = await res.json();
+      setLoad(false);
+      setData(json);
     };
+    fetchData();
+    setLoad(false);
+  }, []);
 
-    const dataLength = data ? data.length : 0;
-    const numResidentes = data ? Residentes(data) : 0;
+  const Residentes = (data) => {
+    return data.filter((item) => item.Residente).length;
+  };
 
-    useEffect(() => {
-        if (chartRef && chartRef.current) {
-            if (chartInstanceRef.current) {
-                chartInstanceRef.current.destroy();
-            }
+  const dataLength = data ? data.length : 0;
+  const numResidentes = data ? Residentes(data) : 0;
 
-            chartInstanceRef.current = new Chart(chartRef.current, {
-                type: 'bar',
-                data: {
-                    labels: ['Não residentes', 'Residentes'],
-                    datasets: [{
-                        label: 'Número de pessoas',
-                        data: [dataLength-numResidentes, numResidentes],
-                        borderWidth: 1
-                    }]
-                }
-            });
-        }
-    }, [data, numResidentes, dataLength]);
+  useEffect(() => {
+    if (chartRef && chartRef.current) {
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy();
+      }
 
-    return (
-        <>
-            <div id={Styles.body}>
-                <NavBar />
-                <div id="allah" className={Styles.Grafico}>
-                    <canvas ref={chartRef} />
-                </div>
-            </div>
-        </>
-    )
-}
+      chartInstanceRef.current = new Chart(chartRef.current, {
+        type: "bar",
+        data: {
+          labels: ["Não residentes", "Residentes"],
+          datasets: [
+            {
+              label: "Número de pessoas",
+              data: [dataLength - numResidentes, numResidentes],
+              borderWidth: 1,
+            },
+          ],
+        },
+      });
+    }
+  }, [data, numResidentes, dataLength]);
+
+  return (
+    <>
+      {load && (
+        <div className="overlay">
+          <Load />
+        </div>
+      )}
+      <div id={Styles.body}>
+        <NavBar />
+        <div id="allah" className={Styles.Grafico}>
+          <canvas ref={chartRef} />
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Estatisticas;

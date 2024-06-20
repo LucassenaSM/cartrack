@@ -4,6 +4,7 @@ import sessionToken from "../../utils/sessionToken.js";
 import Styles from "./Cadastro.module.css";
 import "../../index.css";
 import "../../components/overlay.css";
+import Load from "../../components/Load/load.js";
 import {
   Table,
   TableHeader,
@@ -31,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 const Cadastro = () => {
   const [data, setData] = useState();
   const [searchTerm, setSearchTerm] = useState("");
+  const [load, setLoad] = useState(true);
   let navigate = useNavigate();
   useEffect(() => {
     sessionToken({ page: "/login" }, navigate);
@@ -43,6 +45,7 @@ const Cadastro = () => {
       });
       let json = await res.json();
       setData(json);
+      setLoad(false);
       return {
         items: json,
       };
@@ -101,12 +104,15 @@ const Cadastro = () => {
   }, [items, searchTerm]);
 
   const exportToExcel = () => {
+    setTimeout(()=>{
+      setLoad(true);
+    }, 400);
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
     XLSX.writeFile(workbook, "usuarios_cadastrados.xlsx");
+    setLoad(false);
   };
-
 
   const [nome, setNome] = useState("");
   const [ocupacao, setOcupacao] = useState("");
@@ -132,6 +138,11 @@ const Cadastro = () => {
 
   return (
     <>
+      {load && (
+        <div className="overlay">
+          <Load />
+        </div>
+      )}
       {showE && (
         <div
           className="overlay"

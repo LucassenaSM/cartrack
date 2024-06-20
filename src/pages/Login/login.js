@@ -6,10 +6,13 @@ import AlertError from "../../components/AlertError/alertError.js";
 import { v4 as uuidv4 } from "uuid";
 import sessionToken from "../../utils/sessionToken.js";
 import { useNavigate } from "react-router-dom";
-import { login, updateSessionToken,  getUserBySessionToken } from "../../api.js";
+import { login, updateSessionToken, getUserBySessionToken } from "../../api.js";
+import "../../components/overlay.css";
+import Load from "../../components/Load/load.js";
 
 function Login() {
   const [showV, setShowV] = useState(false);
+  const [load, setLoad] = useState(false);
   const [showError, setShowError] = useState(false);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -56,39 +59,44 @@ function Login() {
       setMessage("Por favor insira a Senha");
     } else {
       try {
-        login(parseInt(user), password)
-        .then(response => {
-        if (response.data.message === "Os dados correspondem") {
-          setShowV(true);
-          const sessionToken = generateUniqueSessionToken();
-          localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
-          updateSessionToken(user, sessionToken);
-          getUserBySessionToken(sessionToken)
-          .then((response) => {
-            if (response.status !== 200) {
-              throw new Error("Erro na resposta do servidor");
+        setTimeout(()=>{
+          setLoad(true);
+        }, 400);
+        login(parseInt(user), password).then((response) => {
+          if (response.data.message === "Os dados correspondem") {
+            setShowV(true);
+            const sessionToken = generateUniqueSessionToken();
+            localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
+            updateSessionToken(user, sessionToken);
+            setLoad(false);
+            getUserBySessionToken(sessionToken)
+              .then((response) => {
+                if (response.status !== 200) {
+                  setLoad(false);
+                  throw new Error("Erro na resposta do servidor");
+                }
+                if (response.data.name) {
+                  localStorage.setItem("user", response.data.name);
+                }
+              })
+              .catch((error) => {
+                console.error("Erro:", error);
+                setLoad(false);
+                setShowError(true);
+                setTitle("Error no Servidor");
+                setMessage("Aguarde um momento - Usuário não Encontrado");
+              });
+            if (JSON.parse(localStorage.getItem("sessionToken"))) {
+              setTimeout(function () {
+                navigate("/dashboard");
+              }, 2000);
             }
-            if (response.data.name) {
-              localStorage.setItem("user", response.data.name);
-            }
-          })
-          .catch((error) => {
-            console.error("Erro:", error);
+          } else {
             setShowError(true);
-            setTitle("Error no Servidor");
-            setMessage("Aguarde um momento - Usuário não Encontrado");
-          });
-          if (JSON.parse(localStorage.getItem("sessionToken"))) {
-            setTimeout(function () {
-              navigate("/dashboard");
-            }, 2000);
+            setTitle("Dados não correspondentes");
+            setMessage("O usuário ou senha estão incorretos");
           }
-        } else {
-          setShowError(true);
-          setTitle("Dados não correspondentes");
-          setMessage("O usuário ou senha estão incorretos");
-        }
-      });
+        });
       } catch (error) {
         console.error("Erro:", error);
         setShowError(true);
@@ -99,49 +107,58 @@ function Login() {
   }
 
   return (
-    <div className={css.corpo}>
-      <div className={css.container}>
-        <div className={css.form_container}>
-          <form className={css.form_class} onSubmit={logar}>
-            <header className={css.header_class}>
-              <h1 className={css.h1_class}>LOGIN</h1>
-              <span className={css.span_class}>Seja bem vindo ao CarTrack</span>
-            </header>
-            <input
-              className={css.input_class}
-              type="number"
-              placeholder="Usuário"
-              onChange={(e) => setUser(e.target.value)}
-            />
-            <input
-              className={css.input_class}
-              type="password"
-              placeholder="Senha"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button className={css.button_class}>Entrar</button>
-            <p className={css.p_class}>
-              Esqueceu sua senha?
-              <br />
-              Entre em contato com o administrador
-            </p>
-          </form>
+    <>
+      {load && (
+        <div className="overlay">
+          <Load />
         </div>
-        <div>
-          <div className={css.overlay_panel}>
-            <img className={css.img_class} src={carro} alt="Carro" />
+      )}
+      <div className={css.corpo}>
+        <div className={css.container}>
+          <div className={css.form_container}>
+            <form className={css.form_class} onSubmit={logar}>
+              <header className={css.header_class}>
+                <h1 className={css.h1_class}>LOGIN</h1>
+                <span className={css.span_class}>
+                  Seja bem vindo ao CarTrack
+                </span>
+              </header>
+              <input
+                className={css.input_class}
+                type="number"
+                placeholder="Usuário"
+                onChange={(e) => setUser(e.target.value)}
+              />
+              <input
+                className={css.input_class}
+                type="password"
+                placeholder="Senha"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button className={css.button_class}>Entrar</button>
+              <p className={css.p_class}>
+                Esqueceu sua senha?
+                <br />
+                Entre em contato com o administrador
+              </p>
+            </form>
+          </div>
+          <div>
+            <div className={css.overlay_panel}>
+              <img className={css.img_class} src={carro} alt="Carro" />
+            </div>
           </div>
         </div>
+        <Validado show={showV} setShow={setShowV} />
+        <AlertError
+          Title={title}
+          Message={message}
+          show={showError}
+          setShow={setShowError}
+          onDismiss={() => setShowError(false)}
+        />
       </div>
-      <Validado show={showV} setShow={setShowV} />
-      <AlertError
-        Title={title}
-        Message={message}
-        show={showError}
-        setShow={setShowError}
-        onDismiss={() => setShowError(false)}
-      />
-    </div>
+    </>
   );
 }
 

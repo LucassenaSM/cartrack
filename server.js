@@ -20,7 +20,7 @@ const pool = createPool({
 
 app.use(express.json());
 
-app.post("/api/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -43,7 +43,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/updateSessionToken", async (req, res) => {
+app.post("/updateSessionToken", async (req, res) => {
   const { username, sessionToken } = req.body;
   const expiryDate = new Date(sessionToken.expiryDate);
   const sqlDatetime = `${expiryDate.getFullYear()}-${
@@ -62,27 +62,27 @@ app.post("/api/updateSessionToken", async (req, res) => {
   }
 });
 
-app.post("/api/readSessionToken", async (req, res) => {
+app.post("/readSessionToken", async (req, res) => {
   const { sessionToken } = req.body;
-
   try {
+    if (sessionToken){
     const { rows } = await pool.query(
       "SELECT expiryDate FROM login WHERE sessionToken = $1",
       [sessionToken.token]
     );
 
     if (rows.length > 0) {
-      res.json({ expiryDate: rows[0].expiryDate });
+      res.json({ expiryDate: rows[0].expirydate });
     } else {
       res.json({ message: "none" });
-    }
+    }}
   } catch (error) {
     console.error("Erro:", error);
     res.status(500).json({ message: "Erro no servidor" });
   }
 });
 
-app.post("/api/user", async (req, res) => {
+app.post("/user", async (req, res) => {
   const { sessionToken } = req.body;
   try {
     const { rows } = await pool.query(
