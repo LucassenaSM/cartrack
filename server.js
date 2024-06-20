@@ -196,6 +196,6 @@ const db = [
   },
 ];
 
-app.get("/usuarios", (req, res) => {
+app.get("/getUsuarios", (req, res) => {
   res.json(db);
 });

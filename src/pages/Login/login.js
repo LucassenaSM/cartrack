@@ -8,7 +8,7 @@ import sessionToken from "../../utils/sessionToken.js";
 import { useNavigate } from "react-router-dom";
 import { login, updateSessionToken, getUserBySessionToken } from "../../api.js";
 import "../../components/overlay.css";
-import Load from "../../components/Load/load.js";
+import {Button} from "@nextui-org/react";
 
 function Login() {
   const [showV, setShowV] = useState(false);
@@ -59,16 +59,13 @@ function Login() {
       setMessage("Por favor insira a Senha");
     } else {
       try {
-        setTimeout(()=>{
-          setLoad(true);
-        }, 400);
+        setLoad(true);
         login(parseInt(user), password).then((response) => {
           if (response.data.message === "Os dados correspondem") {
             setShowV(true);
             const sessionToken = generateUniqueSessionToken();
             localStorage.setItem("sessionToken", JSON.stringify(sessionToken));
             updateSessionToken(user, sessionToken);
-            setLoad(false);
             getUserBySessionToken(sessionToken)
               .then((response) => {
                 if (response.status !== 200) {
@@ -81,7 +78,6 @@ function Login() {
               })
               .catch((error) => {
                 console.error("Erro:", error);
-                setLoad(false);
                 setShowError(true);
                 setTitle("Error no Servidor");
                 setMessage("Aguarde um momento - Usuário não Encontrado");
@@ -108,11 +104,6 @@ function Login() {
 
   return (
     <>
-      {load && (
-        <div className="overlay">
-          <Load />
-        </div>
-      )}
       <div className={css.corpo}>
         <div className={css.container}>
           <div className={css.form_container}>
@@ -135,7 +126,7 @@ function Login() {
                 placeholder="Senha"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button className={css.button_class}>Entrar</button>
+              <Button className={css.button_class} isLoading={load}type="submit">Entrar</Button>
               <p className={css.p_class}>
                 Esqueceu sua senha?
                 <br />

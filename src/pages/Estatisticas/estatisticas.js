@@ -4,6 +4,7 @@ import Styles from "./estatisticas.module.css";
 import React, { useEffect, useRef, useState } from "react";
 import Load from "../../components/Load/load.js";
 import Chart from "chart.js/auto";
+import { getUsuarios } from "../../api.js";
 
 const Estatisticas = () => {
   const [data, setData] = useState();
@@ -13,10 +14,12 @@ const Estatisticas = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch("http://localhost:3030/usuarios");
-      let json = await res.json();
-      setLoad(false);
-      setData(json);
+      await getUsuarios()
+      .then((response) => {
+        let json = response.data;
+        setLoad(false);
+        setData(json);
+      })
     };
     fetchData();
     setLoad(false);

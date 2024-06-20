@@ -28,6 +28,7 @@ import { RiFileExcel2Line } from "react-icons/ri";
 import { MdFileUpload } from "react-icons/md";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
+import { getUsuarios } from "../../api.js";
 
 const Cadastro = () => {
   const [data, setData] = useState();
@@ -40,15 +41,15 @@ const Cadastro = () => {
 
   let list = useAsyncList({
     async load({ signal }) {
-      let res = await fetch("http://localhost:3030/usuarios", {
-        signal,
-      });
-      let json = await res.json();
-      setData(json);
-      setLoad(false);
-      return {
-        items: json,
-      };
+      await getUsuarios({ signal })
+        .then((response) =>{
+          let json = response.data;
+          setData(json);
+          setLoad(false);
+          return {
+            items: json,
+          };
+        })
     },
   });
 
@@ -104,14 +105,10 @@ const Cadastro = () => {
   }, [items, searchTerm]);
 
   const exportToExcel = () => {
-    setTimeout(()=>{
-      setLoad(true);
-    }, 400);
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
     XLSX.writeFile(workbook, "usuarios_cadastrados.xlsx");
-    setLoad(false);
   };
 
   const [nome, setNome] = useState("");
